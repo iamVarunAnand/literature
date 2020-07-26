@@ -4,13 +4,13 @@
 #include "dtypes.h"
 #include <iostream>
 
-class Card {
-    private: Suit suit;
-    private: Value value;
+struct Card {
+    Suit suit;
+    Value value;
 
-    public: Card();
-    public: Card(Suit _suit, Value _value);
-    public: friend std::ostream& operator<<(std::ostream &strm, Card &card);
+    Card();
+    Card(Suit _suit, Value _value);
+    friend std::ostream& operator<<(std::ostream &strm, Card &card);
 };
 
 #endif
