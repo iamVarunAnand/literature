@@ -3,8 +3,8 @@
 #include <iostream>
 
 Card::Card() {
-    suit = ksuit_default;
-    value = kvalue_default;
+    suit = kSuitDefault;
+    value = kValueDefault;
 }
 
 Card::Card(Suit _suit, Value _value) {
