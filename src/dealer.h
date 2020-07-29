@@ -1,11 +1,16 @@
 #ifndef LITERATURE_DEALER_H_
 #define LITERATURE_DEALER_H_
 
-#include "deckofcards.h"
 #include "player.h"
+#include "card.h"
 #include <vector>
 
-class Dealer : private DeckOfCards {
+class Dealer {
+    private: int kNumSuits;
+    private: int kNumCardsPerSuit;
+    private: int kNumTotalCards;
+    private: std::vector<Card> deck;
+
     public: Dealer();
     private: std::vector<int> CalcNumCardsPerPlayer(int num_players);
     private: void ShuffleDeck();
