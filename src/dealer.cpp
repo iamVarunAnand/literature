@@ -1,4 +1,5 @@
 #include "dealer.h"
+#include "dtypes.h"
 #include "card.h"
 #include <cstdlib>
 #include <iostream>
