@@ -1,6 +1,7 @@
 #include "player.h"
 #include "card.h"
 #include "message.h"
+#include <iostream>
 
 Player::Player() {
     id = -1;
@@ -8,6 +9,10 @@ Player::Player() {
 
 Player::Player(int _id) {
     id = _id;
+}
+
+std::ostream& operator<<(std::ostream &strm, Player p) {
+    return strm << "Player [id = " << p.id << "]";
 }
 
 Message Player::GetNextMove() {
@@ -20,3 +25,7 @@ Message Player::GetNextMove() {
 
     return Message(Card(), 0);
 }
+
+bool Player::CheckForCard(Card c) {
+    return false;
+} 

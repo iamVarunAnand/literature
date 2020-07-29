@@ -3,6 +3,7 @@
 
 #include "card.h"
 #include "message.h"
+#include <iostream>
 #include <vector>
 
 class Player {
@@ -12,6 +13,8 @@ class Player {
     public: Player();
     public: Player(int _id);
     public: Message GetNextMove();
+    public: bool CheckForCard(Card c);
+    public: friend std::ostream& operator<<(std::ostream &strm, Player p);
 };
 
 #endif
