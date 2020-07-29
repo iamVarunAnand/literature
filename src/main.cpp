@@ -5,21 +5,30 @@
 #include <vector>
 
 class GameManager {
+    private: Dealer dealer;
     private: std::vector<Player> players;
 
     public: GameManager(int num_players = 4) {
+        dealer = Dealer();
         for(int i = 0; i < num_players; ++i) {
             players.push_back(Player(0));
         }
     }
 
     public: void PlayGame() {
-        for(int i = 0; i < 4; ++i) {
-            Message m = players[i].GetNextMove();
-            bool has_card = players[m.player_id].CheckForCard(m.card);
+        dealer.DealCards(players);
 
-            std::cout << has_card << std::endl;
+        for(Player p : players) {
+            p.ShowCards();
+            std::cout << std::endl;
         }
+        
+        // for(int i = 0; i < 4; ++i) {
+        //     Message m = players[i].GetNextMove();
+        //     bool has_card = players[m.player_id].CheckForCard(m.card);
+
+        //     std::cout << has_card << std::endl;
+        // }
     }
 
     public: friend std::ostream& operator<<(std::ostream &strm, GameManager gm) {
@@ -32,8 +41,6 @@ class GameManager {
 
 int main() {
     GameManager gm(4);
-
-    std::cout << gm << std::endl;
     gm.PlayGame();
 
     return 0;

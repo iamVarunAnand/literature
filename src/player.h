@@ -12,8 +12,10 @@ class Player {
 
     public: Player();
     public: Player(int _id);
+    public: void SetCards(std::vector<Card> _cards);
     public: Message GetNextMove();
     public: bool CheckForCard(Card c);
+    public: void ShowCards();
     public: friend std::ostream& operator<<(std::ostream &strm, Player p);
 };
 

@@ -2,6 +2,7 @@
 #include "card.h"
 #include "message.h"
 #include <iostream>
+#include <vector>
 
 Player::Player() {
     id = -1;
@@ -13,6 +14,17 @@ Player::Player(int _id) {
 
 std::ostream& operator<<(std::ostream &strm, Player p) {
     return strm << "Player [id = " << p.id << "]";
+}
+
+void Player::SetCards(std::vector<Card> _cards) {
+    int num_cards = _cards.size();
+    for(int i = 0; i < num_cards; ++i)
+        cards.push_back(_cards[i]);
+}
+
+void Player::ShowCards() {
+    for(Card c : cards)
+        std::cout << c << std::endl;
 }
 
 Message Player::GetNextMove() {
