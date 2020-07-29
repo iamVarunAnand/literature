@@ -3,6 +3,7 @@
 #include "message.h"
 #include <iostream>
 #include <vector>
+#include <cstdlib>
 
 class GameManager {
     private: Dealer dealer;
@@ -15,19 +16,38 @@ class GameManager {
         }
     }
 
+    public: bool IsGameOver() {
+        int zero_count = 0;
+        for(int i = 0; i < players.size(); ++i)
+            if(players[i].num_cards == 0)
+                zero_count += 1;
+        
+        if(zero_count == players.size() - 1)
+            return true;
+        else
+            return false;
+    }
+
     public: void PlayGame() {
         dealer.DealCards(players);
+        int turn = 0;
 
-        Message msg = players[0].GetNextMove();
-        std::cout << msg << std::endl;
-        bool has_card = players[msg.player_id].ReleaseCard(msg.card);
-        std::cout << has_card << std::endl;
-        
-        if(has_card)
-        {
-            players[0].ReceiveCard(msg.card);
-            std::cout << players[0].num_cards << " " << players[msg.player_id].num_cards << std::endl;
+        while(!IsGameOver()) {
+            Message msg = players[turn].GetNextMove();
+            std::cout << msg << std::endl;
+            bool has_card = players[msg.player_id].ReleaseCard(msg.card);
+            std::cout << has_card << std::endl;
+            
+            if(has_card) 
+                players[turn].ReceiveCard(msg.card);
+            else
+                turn = (turn + 1) % players.size();
         }
+
+        for(Player p : players)
+            std::cout << p.num_cards << ' ';
+        
+        std::cout << std::endl;
 
         // for(int i = 0; i < 4; ++i) {
         //     Message m = players[i].GetNextMove();
@@ -46,6 +66,8 @@ class GameManager {
 };
 
 int main() {
+    srand(time(nullptr));
+
     GameManager gm(4);
     gm.PlayGame();
 

@@ -41,7 +41,6 @@ Message Player::GetNextMove() {
     // LIKELY: method needs to be defined separately by both child classes.
 
     // for now, return a random message
-    srand(time(nullptr));
     Suit s = (Suit)(rand() % 4);
     Value v = (Value)(rand() % 13);
     int pid = rand() % 4;
