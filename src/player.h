@@ -9,14 +9,16 @@
 class Player {
     private: int id;
     private: std::vector<Card> cards;
+    public: int num_cards;
 
     public: Player();
-    public: Player(int _id);
-    public: void SetCards(std::vector<Card> _cards);
+    public: Player(int);
+    public: void SetCards(std::vector<Card>);
     public: Message GetNextMove();
-    public: bool CheckForCard(Card c);
+    public: bool ReleaseCard(Card);
+    public: void ReceiveCard(Card);
     public: void ShowCards();
-    public: friend std::ostream& operator<<(std::ostream &strm, Player p);
+    public: friend std::ostream& operator<<(std::ostream&, Player&);
 };
 
 #endif

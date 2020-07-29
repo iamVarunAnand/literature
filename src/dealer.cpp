@@ -58,8 +58,7 @@ void Dealer::DealCards(std::vector<Player> &players) {
     int deck_index = 0;
     for(int i = 0; i < num_players; ++i) {
         std::vector<Card> player_cards;
-        for(int j = 0; j < kNumCardsPerPlayer[i]; ++j)
-        {
+        for(int j = 0; j < kNumCardsPerPlayer[i]; ++j) {
             player_cards.push_back(deck[deck_index]);
             deck_index += 1;
         }

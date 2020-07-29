@@ -11,18 +11,24 @@ class GameManager {
     public: GameManager(int num_players = 4) {
         dealer = Dealer();
         for(int i = 0; i < num_players; ++i) {
-            players.push_back(Player(0));
+            players.push_back(Player(i));
         }
     }
 
     public: void PlayGame() {
         dealer.DealCards(players);
 
-        for(Player p : players) {
-            p.ShowCards();
-            std::cout << std::endl;
-        }
+        Message msg = players[0].GetNextMove();
+        std::cout << msg << std::endl;
+        bool has_card = players[msg.player_id].ReleaseCard(msg.card);
+        std::cout << has_card << std::endl;
         
+        if(has_card)
+        {
+            players[0].ReceiveCard(msg.card);
+            std::cout << players[0].num_cards << " " << players[msg.player_id].num_cards << std::endl;
+        }
+
         // for(int i = 0; i < 4; ++i) {
         //     Message m = players[i].GetNextMove();
         //     bool has_card = players[m.player_id].CheckForCard(m.card);
@@ -31,7 +37,7 @@ class GameManager {
         // }
     }
 
-    public: friend std::ostream& operator<<(std::ostream &strm, GameManager gm) {
+    public: friend std::ostream& operator<<(std::ostream &strm, GameManager &gm) {
         for(Player p : gm.players)
             strm << p << '\n';
         

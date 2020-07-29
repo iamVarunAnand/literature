@@ -11,6 +11,7 @@ struct Card {
     Card();
     Card(Suit _suit, Value _value);
     friend std::ostream& operator<<(std::ostream &strm, Card &card);
+    bool operator==(const Card &b);
 };
 
 #endif
