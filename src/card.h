@@ -10,8 +10,8 @@ struct Card {
 
     Card();
     Card(Suit _suit, Value _value);
+    bool operator==(const Card &b) const;
     friend std::ostream& operator<<(std::ostream &strm, Card &card);
-    bool operator==(const Card &b);
 };
 
 #endif

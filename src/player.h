@@ -3,12 +3,15 @@
 
 #include "card.h"
 #include "message.h"
+#include "set.h"
 #include <iostream>
 #include <vector>
+#include <unordered_map>
 
 class Player {
     private: int id;
     private: std::vector<Card> cards;
+    public: std::unordered_map<Set, int, SetHash> set_counts;
     public: int num_cards;
 
     public: Player();

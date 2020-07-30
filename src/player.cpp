@@ -2,10 +2,12 @@
 #include "card.h"
 #include "message.h"
 #include "dtypes.h"
+#include "set.h"
 #include <iostream>
 #include <vector>
 #include <cstdlib>
 #include <algorithm>
+#include <unordered_map>
 
 Player::Player() {
     id = -1;
@@ -22,9 +24,20 @@ std::ostream& operator<<(std::ostream &strm, Player &p) {
 }
 
 void Player::SetCards(std::vector<Card> _cards) {
+    // calculate the total number of cards
     num_cards = _cards.size();
     for(int i = 0; i < num_cards; ++i)
+    {
+        // pick up the card
         cards.push_back(_cards[i]);
+
+        // update set count
+        Set current_set(_cards[i].suit, Set::DetermineSetType(_cards[i].value));
+        if(set_counts.find(current_set) != set_counts.end())
+            set_counts[current_set] += 1;
+        else
+            set_counts[current_set] = 1;
+    }
 }
 
 void Player::ShowCards() {
@@ -48,19 +61,21 @@ Message Player::GetNextMove() {
     return Message(Card(s, v), pid);
 }
 
-// bool Player::CheckForCard(Card card) {
-//     auto it = std::find(cards.begin(), cards.end(), card);
-    
-//     if(it != cards.end())
-//         return true;
-//     else
-//         return false;
-// }
-
 bool Player::ReleaseCard(Card card) {
     auto it = std::find(cards.begin(), cards.end(), card);
     if(it != cards.end()) {
+        // drop the card
         cards.erase(it);
+
+        // update the set count
+        Set current_set(card.suit, Set::DetermineSetType(card.value));
+        set_counts[current_set] -= 1;
+
+        // check if set key can be removed
+        if(set_counts[current_set] == 0)
+            set_counts.erase(current_set);
+
+        // decrement the card count
         num_cards -= 1;
 
         return true;
@@ -70,6 +85,13 @@ bool Player::ReleaseCard(Card card) {
 }
 
 void Player::ReceiveCard(Card card) {
+    // pick up the card
     cards.push_back(card);
+
+    // update set count
+    Set current_set(card.suit, Set::DetermineSetType(card.value));
+    set_counts[current_set] += 1;
+
+    // increment card count
     num_cards += 1;
 }

@@ -12,7 +12,7 @@ Card::Card(Suit _suit, Value _value) {
     value = _value;
 }
 
-bool Card::operator==(const Card &b) {
+bool Card::operator==(const Card &b) const {
     return (suit == b.suit && value == b.value);
 }
 

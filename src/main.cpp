@@ -1,9 +1,11 @@
 #include "dealer.h"
 #include "player.h"
 #include "message.h"
+#include "set.h"
 #include <iostream>
 #include <vector>
 #include <cstdlib>
+#include <utility>
 
 class GameManager {
     private: Dealer dealer;
@@ -32,22 +34,20 @@ class GameManager {
         dealer.DealCards(players);
         int turn = 0;
 
-        while(!IsGameOver()) {
-            Message msg = players[turn].GetNextMove();
-            std::cout << msg << std::endl;
-            bool has_card = players[msg.player_id].ReleaseCard(msg.card);
-            std::cout << has_card << std::endl;
-            
-            if(has_card) 
-                players[turn].ReceiveCard(msg.card);
-            else
-                turn = (turn + 1) % players.size();
+        players[turn].ShowCards();
+        for(std::pair<Set, int> sc : players[turn].set_counts) {
+            std::cout << sc.first << " " << sc.second << std::endl;
         }
 
-        for(Player p : players)
-            std::cout << p.num_cards << ' ';
+        // Message msg = players[turn].GetNextMove();
+        // std::cout << msg << std::endl;
+        // bool has_card = players[msg.player_id].ReleaseCard(msg.card);
+        // std::cout << has_card << std::endl;
         
-        std::cout << std::endl;
+        // if(has_card) 
+        //     players[turn].ReceiveCard(msg.card);
+        // else
+        //     turn = (turn + 1) % players.size();
 
         // for(int i = 0; i < 4; ++i) {
         //     Message m = players[i].GetNextMove();
