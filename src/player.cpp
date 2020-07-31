@@ -13,11 +13,13 @@
 Player::Player() {
     id = -1;
     num_cards = 0;
+    to_declare = false;
 }
 
 Player::Player(int _id) {
     id = _id;
     num_cards = 0;
+    to_declare = false;
 }
 
 std::ostream& operator<<(std::ostream &strm, Player &p) {
@@ -93,6 +95,35 @@ void Player::ReceiveCard(Card card) {
     Set current_set(card.suit, Set::DetermineSetType(card.value));
     set_counts[current_set] += 1;
 
+    // check if the set is to be declared
+    if(set_counts[current_set] == kNumCardsPerSet)
+        to_declare = true;
+
     // increment card count
     num_cards += 1;
+}
+
+Set Player::DeclareSet() {
+    // find the set to be declared
+    Set set_to_be_declared;
+    bool flag = false;
+
+    for(auto it = set_counts.begin(); it != set_counts.end() && flag == false; ++it)
+        if((*it).second == kNumCardsPerSet) {
+            set_to_be_declared = (*it).first;
+            flag = true;
+        }
+    
+    // remove cards that belong to the particular set
+    for(int i = 0; i < num_cards; ++i) {
+        Set current_set(cards[i].suit, Set::DetermineSetType(cards[i].value));
+
+        if(current_set == set_to_be_declared) {
+            cards.erase(cards.begin() + i);
+            i -= 1;
+            num_cards -= 1;
+        }
+    }
+    
+    return set_to_be_declared;
 }
