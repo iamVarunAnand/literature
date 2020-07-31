@@ -55,7 +55,7 @@ Message Player::GetNextMove() {
 
     // for now, return a random message
     Suit s = (Suit)(rand() % 4);
-    Value v = (Value)(rand() % 13);
+    Value v = (Value)(rand() % 12);
     int pid = rand() % 4;
 
     return Message(Card(s, v), pid);

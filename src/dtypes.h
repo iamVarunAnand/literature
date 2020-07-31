@@ -6,7 +6,7 @@ enum Suit {
 };
 
 enum Value {
-    kValueDefault = -1, kTwo, kThree, kFour, kFive, kSix, kSeven, kEight, kNine, kTen, kJack, kQueen, kKing, kAce
+    kValueDefault = -1, kTwo, kThree, kFour, kFive, kSix, kSeven, kNine, kTen, kJack, kQueen, kKing, kAce
 };
 
 #endif

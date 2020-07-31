@@ -6,7 +6,7 @@
 
 Dealer::Dealer() {
     kNumSuits = 4;
-    kNumCardsPerSuit = 13;
+    kNumCardsPerSuit = 12;
     kNumTotalCards = kNumSuits * kNumCardsPerSuit;
 
     for(int i = 0; i < kNumSuits; ++i) {

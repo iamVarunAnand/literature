@@ -13,7 +13,7 @@ Set::Set(Suit _suit, int _type) {
 }
 
 bool Set::DetermineSetType(Value value) {
-    if(value > kEight)
+    if(value > kSeven)
         return true;
     else
         return false;
