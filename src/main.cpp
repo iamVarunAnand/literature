@@ -1,6 +1,7 @@
 #include "dealer.h"
 #include "player.h"
 #include "message.h"
+#include "constants.h"
 #include "set.h"
 #include <iostream>
 #include <vector>
@@ -11,7 +12,7 @@ class GameManager {
     private: Dealer dealer;
     private: std::vector<Player> players;
 
-    public: GameManager(int num_players = 4) {
+    public: GameManager(int num_players = kNumPlayers) {
         dealer = Dealer();
         for(int i = 0; i < num_players; ++i) {
             players.push_back(Player(i));
@@ -68,7 +69,7 @@ class GameManager {
 int main() {
     srand(time(nullptr));
 
-    GameManager gm(4);
+    GameManager gm(kNumPlayers);
     gm.PlayGame();
 
     return 0;

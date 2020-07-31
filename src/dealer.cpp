@@ -1,14 +1,11 @@
 #include "dealer.h"
 #include "dtypes.h"
+#include "constants.h"
 #include "card.h"
 #include <cstdlib>
 #include <iostream>
 
 Dealer::Dealer() {
-    kNumSuits = 4;
-    kNumCardsPerSuit = 12;
-    kNumTotalCards = kNumSuits * kNumCardsPerSuit;
-
     for(int i = 0; i < kNumSuits; ++i) {
         for(int j = 0; j < kNumCardsPerSuit; ++j) {
             Suit s = (Suit)i;
@@ -21,8 +18,6 @@ Dealer::Dealer() {
 }
 
 void Dealer::ShuffleDeck() {
-    srand(time(nullptr));
-
     for(int i = kNumTotalCards - 1; i > 0; --i) {
         int j = rand() % (i + 1);
 
@@ -66,9 +61,7 @@ void Dealer::DealCards(std::vector<Player> &players) {
     }
 }
 
-void Dealer::ShowRandomCard() {
-    srand(time(nullptr));
-    
+void Dealer::ShowRandomCard() {    
     int index = rand() % kNumTotalCards;
     std::cout << "Generated index: " << index << " - ";
     std::cout << deck[index] << std::endl;

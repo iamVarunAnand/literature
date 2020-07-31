@@ -2,6 +2,7 @@
 #include "card.h"
 #include "message.h"
 #include "dtypes.h"
+#include "constants.h"
 #include "set.h"
 #include <iostream>
 #include <vector>
@@ -54,9 +55,9 @@ Message Player::GetNextMove() {
     // LIKELY: method needs to be defined separately by both child classes.
 
     // for now, return a random message
-    Suit s = (Suit)(rand() % 4);
-    Value v = (Value)(rand() % 12);
-    int pid = rand() % 4;
+    Suit s = (Suit)(rand() % kNumSuits);
+    Value v = (Value)(rand() % kNumCardsPerSuit);
+    int pid = rand() % kNumPlayers;
 
     return Message(Card(s, v), pid);
 }

@@ -6,9 +6,6 @@
 #include <vector>
 
 class Dealer {
-    private: int kNumSuits;
-    private: int kNumCardsPerSuit;
-    private: int kNumTotalCards;
     private: std::vector<Card> deck;
 
     public: Dealer();
