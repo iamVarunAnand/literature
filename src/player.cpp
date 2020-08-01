@@ -74,8 +74,6 @@ AskForCardMessage Player::GetNextMove() {
     Value v = (Value)(rand() % kNumCardsPerSuit);
     int pid = rand() % kNumPlayers;
 
-    std::cout << CheckForBaseCard(Set(s, Set::DetermineSetType(v))) << std::endl;
-
     return AskForCardMessage(Card(s, v), pid);
 }
 
@@ -94,6 +92,11 @@ ReleaseCardMessage Player::ReleaseCard(Card card) {
         // decrement the card count
         num_cards -= 1;
 
+        // check if the set can be removed from set counts
+        if(set_counts[current_set] == 0)
+            set_counts.erase(current_set);
+
+        // update the release flag
         release = true;
     }
 

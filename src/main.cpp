@@ -53,7 +53,12 @@ int main() {
     srand(time(nullptr));
 
     GameManager gm(kNumPlayers);
+
+    clock_t start = clock();
     gm.PlayGame();
+    clock_t end = clock();
+
+    std::cout << "[INFO] game took " << (double)(end - start) / (double)CLOCKS_PER_SEC << " seconds" << std::endl;
 
     return 0;
 }
