@@ -2,7 +2,7 @@
 #define LITERATURE_PLAYER_H
 
 #include "card.h"
-#include "message.h"
+#include "messages.h"
 #include "set.h"
 #include <iostream>
 #include <vector>

@@ -6,11 +6,11 @@
 
 struct Set {
     Suit suit;
-    bool type;
+    int type;
 
     Set();
     Set(Suit, int);
-    static bool DetermineSetType(Value);
+    static int DetermineSetType(Value);
     bool operator==(const Set&) const;
     friend std::ostream& operator<<(std::ostream&, Set&);
 

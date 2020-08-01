@@ -50,12 +50,12 @@ void Dealer::DealCards(std::vector<Player> &players) {
     ShuffleDeck();
 
     // distribute the cards
-    int deck_index = 0;
     for(int i = 0; i < num_players; ++i) {
         std::vector<Card> player_cards;
         for(int j = 0; j < kNumCardsPerPlayer[i]; ++j) {
-            player_cards.push_back(deck[deck_index]);
-            deck_index += 1;
+            Card temp = *(deck.begin());
+            player_cards.push_back(temp);
+            deck.erase(deck.begin());
         }
         players[i].SetCards(player_cards);
     }

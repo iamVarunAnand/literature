@@ -12,11 +12,11 @@ Set::Set(Suit _suit, int _type) {
     type = _type;
 }
 
-bool Set::DetermineSetType(Value value) {
+int Set::DetermineSetType(Value value) {
     if(value > kSeven)
-        return true;
+        return 1;
     else
-        return false;
+        return 0;
 }
 
 bool Set::operator==(const Set &b) const {
