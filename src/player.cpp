@@ -50,6 +50,17 @@ void Player::ShowCards() {
         std::cout << c << std::endl;
 }
 
+bool Player::CheckForBaseCard(Set set) {
+    bool flag = false;
+
+    for(int i = 0; i < num_cards && flag == false; ++i) {
+        Set current_set(cards[i].suit, Set::DetermineSetType(cards[i].value));
+        flag = (current_set == set);
+    }
+
+    return flag;
+}
+
 AskForCardMessage Player::GetNextMove() {
     // if this is the Computer, then the computer would have to decide its move first
     // if this is the User, then the move must be taken as input from the user
@@ -62,6 +73,8 @@ AskForCardMessage Player::GetNextMove() {
     Suit s = (Suit)(rand() % kNumSuits);
     Value v = (Value)(rand() % kNumCardsPerSuit);
     int pid = rand() % kNumPlayers;
+
+    std::cout << CheckForBaseCard(Set(s, Set::DetermineSetType(v))) << std::endl;
 
     return AskForCardMessage(Card(s, v), pid);
 }

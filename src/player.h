@@ -19,6 +19,8 @@ class Player {
     public: Player();
     public: Player(int);
 
+    private: bool CheckForBaseCard(Set);
+
     public: void SetCards(std::vector<Card>);
     public: AskForCardMessage GetNextMove();
     public: ReleaseCardMessage ReleaseCard(Card);
