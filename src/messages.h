@@ -5,11 +5,7 @@
 #include "set.h"
 #include <iostream>
 
-struct Message {
-    // purely for ease of implementation purposes
-};
-
-struct AskForCardMessage : public Message {
+struct AskForCardMessage {
     Card card;
     int player_id;
 
@@ -18,7 +14,7 @@ struct AskForCardMessage : public Message {
     friend std::ostream& operator<<(std::ostream &strm, AskForCardMessage &msg);
 };
 
-struct ReleaseCardMessage : public Message {
+struct ReleaseCardMessage {
     bool release;
     Card card;
 
@@ -27,7 +23,7 @@ struct ReleaseCardMessage : public Message {
     friend std::ostream& operator<<(std::ostream &strm, ReleaseCardMessage &msg);
 };
 
-struct DeclareSetMessage : public Message {
+struct DeclareSetMessage {
     bool declare;
     Set set;
 

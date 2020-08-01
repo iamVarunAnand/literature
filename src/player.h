@@ -11,19 +11,19 @@
 class Player {
     private: int id;
     private: std::vector<Card> cards;
-
     public: std::unordered_map<Set, int, SetHash> set_counts;
+
     public: int num_cards;
-    public: bool to_declare;
+    public: int points;
 
     public: Player();
     public: Player(int);
 
     public: void SetCards(std::vector<Card>);
-    public: Message GetNextMove();
-    public: bool ReleaseCard(Card);
-    public: void ReceiveCard(Card);
-    public: Set DeclareSet();
+    public: AskForCardMessage GetNextMove();
+    public: ReleaseCardMessage ReleaseCard(Card);
+    public: DeclareSetMessage ReceiveCard(Card);
+    public: void DeclareSet(Set);
     public: void ShowCards();
     public: friend std::ostream& operator<<(std::ostream&, Player&);
 };

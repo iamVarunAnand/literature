@@ -1,6 +1,6 @@
 #include "player.h"
 #include "card.h"
-#include "message.h"
+#include "messages.h"
 #include "dtypes.h"
 #include "constants.h"
 #include "set.h"
@@ -12,14 +12,16 @@
 
 Player::Player() {
     id = -1;
+
     num_cards = 0;
-    to_declare = false;
+    points = 0;
 }
 
 Player::Player(int _id) {
     id = _id;
+
     num_cards = 0;
-    to_declare = false;
+    points = 0;
 }
 
 std::ostream& operator<<(std::ostream &strm, Player &p) {
@@ -48,7 +50,7 @@ void Player::ShowCards() {
         std::cout << c << std::endl;
 }
 
-Message Player::GetNextMove() {
+AskForCardMessage Player::GetNextMove() {
     // if this is the Computer, then the computer would have to decide its move first
     // if this is the User, then the move must be taken as input from the user
 
@@ -61,10 +63,12 @@ Message Player::GetNextMove() {
     Value v = (Value)(rand() % kNumCardsPerSuit);
     int pid = rand() % kNumPlayers;
 
-    return Message(Card(s, v), pid);
+    return AskForCardMessage(Card(s, v), pid);
 }
 
-bool Player::ReleaseCard(Card card) {
+ReleaseCardMessage Player::ReleaseCard(Card card) {
+    bool release = false;
+
     auto it = std::find(cards.begin(), cards.end(), card);
     if(it != cards.end()) {
         // drop the card
@@ -74,20 +78,18 @@ bool Player::ReleaseCard(Card card) {
         Set current_set(card.suit, Set::DetermineSetType(card.value));
         set_counts[current_set] -= 1;
 
-        // check if set key can be removed
-        if(set_counts[current_set] == 0)
-            set_counts.erase(current_set);
-
         // decrement the card count
         num_cards -= 1;
 
-        return true;
+        release = true;
     }
-    else
-        return false;
+
+    return ReleaseCardMessage(release, card);
 }
 
-void Player::ReceiveCard(Card card) {
+DeclareSetMessage Player::ReceiveCard(Card card) {
+    bool declare = false;
+    
     // pick up the card
     cards.push_back(card);
 
@@ -97,33 +99,26 @@ void Player::ReceiveCard(Card card) {
 
     // check if the set is to be declared
     if(set_counts[current_set] == kNumCardsPerSet)
-        to_declare = true;
+        declare = true;
 
     // increment card count
     num_cards += 1;
+
+    return DeclareSetMessage(declare, current_set);
 }
 
-Set Player::DeclareSet() {
-    // find the set to be declared
-    Set set_to_be_declared;
-    bool flag = false;
-
-    for(auto it = set_counts.begin(); it != set_counts.end() && flag == false; ++it)
-        if((*it).second == kNumCardsPerSet) {
-            set_to_be_declared = (*it).first;
-            flag = true;
-        }
-    
+void Player::DeclareSet(Set set) {
     // remove cards that belong to the particular set
     for(int i = 0; i < num_cards; ++i) {
         Set current_set(cards[i].suit, Set::DetermineSetType(cards[i].value));
 
-        if(current_set == set_to_be_declared) {
+        if(current_set == set) {
             cards.erase(cards.begin() + i);
             i -= 1;
             num_cards -= 1;
         }
     }
-    
-    return set_to_be_declared;
+
+    // remove set from set counts
+    set_counts.erase(set);
 }

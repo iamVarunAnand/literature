@@ -19,69 +19,33 @@ class GameManager {
         }
     }
 
-    public: bool IsGameOver() {
-        int zero_count = 0;
-        for(int i = 0; i < players.size(); ++i)
-            if(players[i].num_cards == 0)
-                zero_count += 1;
-        
-        if(zero_count == players.size() - 1)
-            return true;
-        else
-            return false;
-    }
-
     public: void PlayGame() {
         dealer.DealCards(players);
         int turn = 0;
+        int sets_declared = 0;
         
-        // int loop_limit = 0;
-        // while(!IsGameOver() && loop_limit < 1000) {
-        //     Message msg = players[turn].GetNextMove();
-        //     // std::cout << msg << std::endl;
-        //     bool has_card = players[msg.player_id].ReleaseCard(msg.card);
-        //     // std::cout << has_card << std::endl;
+        while(sets_declared < kNumTotalSets) {
+            AskForCardMessage afcm = players[turn].GetNextMove();
+            ReleaseCardMessage rcm = players[afcm.player_id].ReleaseCard(afcm.card);
             
-        //     if(has_card) {
-        //         players[turn].ReceiveCard(msg.card);
+            if(rcm.release) {
+                DeclareSetMessage dsm = players[turn].ReceiveCard(rcm.card);
 
-        //         // check if the player wishes to declare a set
-        //         if(players[turn].to_declare) {
-        //             players[turn].ShowCards();
-        //             std::cout << "[INFO] num cards before declaring = " << players[turn].num_cards << std::endl;
-        //             Set s = players[turn].DeclareSet();
-        //             std::cout << std::endl << s << std::endl << std::endl;
-        //             std::cout << "[INFO] num cards after declaring = " << players[turn].num_cards << std::endl;
-        //             players[turn].ShowCards();
+                // check if the player wishes to declare a set
+                if(dsm.declare) {
+                    std::cout << "[INFO] player " << turn << " is declaring " << dsm.set << std::endl;
+                    players[turn].DeclareSet(dsm.set);
+                    players[turn].points += (1 + dsm.set.type);
+                    sets_declared += 1;
+                }
+            }
+            else
+                turn = (turn + 1) % players.size();
+        }
 
-        //             // TODO: Update set counts properly to reflect the declared set.
-
-        //             break;
-        //         }
-
-        //     }
-        //     else
-        //         turn = (turn + 1) % players.size();
-            
-        //     loop_limit += 1;
-        // }
-
-        // for(Player p : players)
-        //     std::cout << p.num_cards << " ";
-
-        // for(int i = 0; i < 4; ++i) {
-        //     Message m = players[i].GetNextMove();
-        //     bool has_card = players[m.player_id].CheckForCard(m.card);
-
-        //     std::cout << has_card << std::endl;
-        // }
-    }
-
-    public: friend std::ostream& operator<<(std::ostream &strm, GameManager &gm) {
-        for(Player p : gm.players)
-            strm << p << '\n';
-        
-        return strm;
+        for(int i = 0; i < players.size(); ++i) {
+            std::cout << "[INFO] player " << i << " got " << players[i].points << " points" << std::endl;
+        }
     }
 };
 
