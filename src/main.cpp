@@ -21,6 +21,7 @@ class GameManager {
 
     public: void PlayGame() {
         dealer.DealCards(players);
+
         int turn = 0;
         int sets_declared = 0;
         
@@ -40,7 +41,7 @@ class GameManager {
                 }
             }
             else
-                turn = (turn + 1) % players.size();
+                turn = afcm.player_id;
         }
 
         std::cout << std::endl << "Final results: " << std::endl;

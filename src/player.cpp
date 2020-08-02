@@ -39,6 +39,9 @@ void Player::SetCards(std::vector<Card> _cards) {
         // update set count
         Set current_set(_cards[i].suit, Set::DetermineSetType(_cards[i].value));
         brain.UpdateSetCounts(current_set, true);
+
+        // update required cards
+        brain.UpdateRequiredCards(_cards[i], true);
     }
 }
 
@@ -75,6 +78,9 @@ ReleaseCardMessage Player::ReleaseCard(Card card) {
         Set current_set(card.suit, Set::DetermineSetType(card.value));
         brain.UpdateSetCounts(current_set, false);
 
+        // update the required cards
+        brain.UpdateRequiredCards(card, false);
+
         // decrement the card count
         num_cards -= 1;
 
@@ -94,6 +100,9 @@ DeclareSetMessage Player::ReceiveCard(Card card) {
     // update set count
     Set current_set(card.suit, Set::DetermineSetType(card.value));
     brain.UpdateSetCounts(current_set, true);
+
+    // update required cards
+    brain.UpdateRequiredCards(card, true);
 
     // check if the set is to be declared
     declare = brain.IsDeclare(current_set);
