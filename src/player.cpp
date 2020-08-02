@@ -56,11 +56,11 @@ AskForCardMessage Player::PlayNextMove() {
     // LIKELY: method needs to be defined separately by both child classes.
 
     // for now, return a random message
-    Suit s = (Suit)(rand() % kNumSuits);
-    Value v = (Value)(rand() % kNumCardsPerSuit);
+
+    Card required_card = brain.GetNextMove(cards);
     int pid = rand() % kNumPlayers;
 
-    return AskForCardMessage(Card(s, v), pid);
+    return AskForCardMessage(required_card, pid);
 }
 
 ReleaseCardMessage Player::ReleaseCard(Card card) {

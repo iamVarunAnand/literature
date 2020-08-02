@@ -17,7 +17,8 @@ class Player {
         public: void ForgetSetCounts(Set);
         public: bool IsDeclare(Set);
         public: std::vector<Set> FindPlayableSets();
-        public: Card GetNextMove(std::vector<Card>&);
+        public: std::vector<Card> FindRequiredCards(std::vector<Card>);
+        public: Card GetNextMove(std::vector<Card>);
     };
 
 

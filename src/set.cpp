@@ -1,6 +1,8 @@
 #include "dtypes.h"
 #include "set.h"
+#include "card.h"
 #include <iostream>
+#include <vector>
 
 Set::Set() {
     suit = kSuitDefault;
@@ -17,6 +19,21 @@ int Set::DetermineSetType(Value value) {
         return 1;
     else
         return 0;
+}
+
+std::vector<Card> Set::GetCardsInSet(Set set) {
+    std::vector<Card> cards;
+
+    if(set.type) {
+        for(Value v = kNine; v <= kAce; v = (Value)(v + 1))
+            cards.push_back(Card(set.suit, v));
+    }
+    else {
+        for(Value v = kTwo; v <= kSeven; v = (Value)(v + 1))
+            cards.push_back(Card(set.suit, v));
+    }
+
+    return cards;
 }
 
 bool Set::operator==(const Set &b) const {

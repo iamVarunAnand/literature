@@ -43,8 +43,9 @@ class GameManager {
                 turn = (turn + 1) % players.size();
         }
 
+        std::cout << std::endl << "Final results: " << std::endl;
         for(int i = 0; i < players.size(); ++i) {
-            std::cout << "[INFO] player " << i << " got " << players[i].points << " points" << std::endl;
+            std::cout << "\tplayer " << i << " got " << players[i].points << " points" << std::endl;
         }
     }
 };
