@@ -25,7 +25,7 @@ class GameManager {
         int sets_declared = 0;
         
         while(sets_declared < kNumTotalSets) {
-            AskForCardMessage afcm = players[turn].GetNextMove();
+            AskForCardMessage afcm = players[turn].PlayNextMove();
             ReleaseCardMessage rcm = players[afcm.player_id].ReleaseCard(afcm.card);
             
             if(rcm.release) {

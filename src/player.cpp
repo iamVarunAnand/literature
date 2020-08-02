@@ -38,10 +38,7 @@ void Player::SetCards(std::vector<Card> _cards) {
 
         // update set count
         Set current_set(_cards[i].suit, Set::DetermineSetType(_cards[i].value));
-        if(set_counts.find(current_set) != set_counts.end())
-            set_counts[current_set] += 1;
-        else
-            set_counts[current_set] = 1;
+        brain.UpdateSetCounts(current_set, true);
     }
 }
 
@@ -50,18 +47,7 @@ void Player::ShowCards() {
         std::cout << c << std::endl;
 }
 
-bool Player::CheckForBaseCard(Set set) {
-    bool flag = false;
-
-    for(int i = 0; i < num_cards && flag == false; ++i) {
-        Set current_set(cards[i].suit, Set::DetermineSetType(cards[i].value));
-        flag = (current_set == set);
-    }
-
-    return flag;
-}
-
-AskForCardMessage Player::GetNextMove() {
+AskForCardMessage Player::PlayNextMove() {
     // if this is the Computer, then the computer would have to decide its move first
     // if this is the User, then the move must be taken as input from the user
 
@@ -87,14 +73,10 @@ ReleaseCardMessage Player::ReleaseCard(Card card) {
 
         // update the set count
         Set current_set(card.suit, Set::DetermineSetType(card.value));
-        set_counts[current_set] -= 1;
+        brain.UpdateSetCounts(current_set, false);
 
         // decrement the card count
         num_cards -= 1;
-
-        // check if the set can be removed from set counts
-        if(set_counts[current_set] == 0)
-            set_counts.erase(current_set);
 
         // update the release flag
         release = true;
@@ -111,11 +93,10 @@ DeclareSetMessage Player::ReceiveCard(Card card) {
 
     // update set count
     Set current_set(card.suit, Set::DetermineSetType(card.value));
-    set_counts[current_set] += 1;
+    brain.UpdateSetCounts(current_set, true);
 
     // check if the set is to be declared
-    if(set_counts[current_set] == kNumCardsPerSet)
-        declare = true;
+    declare = brain.IsDeclare(current_set);
 
     // increment card count
     num_cards += 1;
@@ -124,7 +105,7 @@ DeclareSetMessage Player::ReceiveCard(Card card) {
 }
 
 void Player::DeclareSet(Set set) {
-    // remove cards that belong to the particular set
+    // drop cards that belong to the particular set
     for(int i = 0; i < num_cards; ++i) {
         Set current_set(cards[i].suit, Set::DetermineSetType(cards[i].value));
 
@@ -136,5 +117,5 @@ void Player::DeclareSet(Set set) {
     }
 
     // remove set from set counts
-    set_counts.erase(set);
+    brain.ForgetSetCounts(set);
 }
