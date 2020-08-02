@@ -5,6 +5,10 @@
 #include "algorithm"
 #include <utility>
 
+// void Player::Brain::Brain() {
+//     hm = HandMemory();
+// }
+
 void Player::Brain::UpdateSetCounts(Set set, bool increment) {
     if(set_counts.find(set) == set_counts.end()) {
         set_counts[set] = 1;

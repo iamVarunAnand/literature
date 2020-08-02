@@ -4,6 +4,7 @@
 #include "card.h"
 #include "messages.h"
 #include "set.h"
+// #include "handmemory.h"
 #include <iostream>
 #include <vector>
 #include <unordered_map>
@@ -13,14 +14,16 @@ class Player {
     private: class Brain {
         private: std::unordered_map<Set, int, SetHash> set_counts;
         private: std::unordered_map<Set, std::vector<Card>, SetHash> req_cards;
+        // private: HandMemory hm;
 
+        public: Brain();
         public: void UpdateSetCounts(Set, bool);
         public: void UpdateRequiredCards(Card, bool);
         public: void ForgetSetCounts(Set);
         public: void ForgetRequiredCards(Set);
         public: bool IsDeclare(Set);
         public: Set FindSetToPlay();
-        public: std::vector<Card> FindRequiredCards(std::vector<Card>);
+        // public: std::vector<Card> FindRequiredCards(std::vector<Card>);
         public: Card GetNextMove(std::vector<Card>);
 
         // TODO: encompass all into HandMemory
