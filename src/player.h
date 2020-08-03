@@ -11,27 +11,35 @@
 class Player {
 
     private: class Brain {
-        private: std::unordered_map<Set, std::vector<Card>, SetHash> req_cards;
-        // private: std::unordered_map<Card, std::vector<Player>, CardHash> memory;
+        public:
+            std::unordered_map<Set, std::vector<Card>, SetHash> req_cards;
+            std::unordered_map<Card, std::vector<int>, CardHash> memory;
+            bool declare;
 
-        public: bool declare;
+            Brain();
+            void AddToRequiredCards(Set, Card);
+            void DeleteFromRequiredCards(Set, Card);
+            void ForgetRequiredCards(Set);
+            void AddPlayerToCard(Card, int);
+            void DeletePlayerFromCard(Card, int);
+            void ConfirmPlayerForCard(Card, int);
+            void ForgetCard(Card);
+            bool IsCardRequired(Card);
 
-        public: Brain();
+            void UpdateRequiredCards(Card, bool);
+            void InitializeMemory(int, std::vector<Card>);
+            void UpdateMemory(Card, int, bool);
+            bool IsDeclare(Set);
 
-        private: void AddToRequiredCards(Set, Card);
-        private: void DeleteFromRequiredCards(Set, Card);
-        private: void ForgetRequiredCards(Set);
-
-        public: void UpdateRequiredCards(Card, bool);
-        public: bool IsDeclare(Set);
-        public: Set  FindSetToPlay();
-        public: Card GetNextMove(std::vector<Card>);
+            Set  FindSetToPlay();
+            AskForCardMessage  CheckForCertainty();
+            AskForCardMessage GetNextMove(std::vector<Card>);
     };
 
 
     private: int id;
     private: std::vector<Card> cards;
-    private: Brain brain;
+    public: Brain brain;
 
     public: int num_cards;
     public: int points;
@@ -41,10 +49,10 @@ class Player {
 
     public: void SetCards(std::vector<Card>);
     public: AskForCardMessage PlayNextMove();
-    public: ReleaseCardMessage ReleaseCard(Card);
-    public: DeclareSetMessage ReceiveCard(Card);
+    public: ReleaseCardMessage ReleaseCardTo(Card, int);
+    public: DeclareSetMessage ReceiveCardFrom(Card, int);
     public: void DeclareSet(Set);
-    // public: void ReceiveTurnInfo(Player, Player, Card, bool);
+    public: void ReceiveTurnInfo(int, int, Card, bool);
     public: void ShowCards();
     public: friend std::ostream& operator<<(std::ostream&, Player&);
 };

@@ -38,9 +38,10 @@ void Player::SetCards(std::vector<Card> _cards) {
 
         // update required cards
         brain.UpdateRequiredCards(_cards[i], true);
-
-        // TODO: update memory
     }
+
+    // initialize the memory
+    brain.InitializeMemory(id, cards);
 }
 
 void Player::ShowCards() {
@@ -58,13 +59,10 @@ AskForCardMessage Player::PlayNextMove() {
 
     // for now, return a random message
 
-    Card required_card = brain.GetNextMove(cards);
-    int pid = rand() % kNumPlayers;
-
-    return AskForCardMessage(required_card, pid);
+    return brain.GetNextMove(cards);
 }
 
-ReleaseCardMessage Player::ReleaseCard(Card card) {
+ReleaseCardMessage Player::ReleaseCardTo(Card card, int pid) {
     bool release = false;
 
     auto it = std::find(cards.begin(), cards.end(), card);
@@ -74,6 +72,9 @@ ReleaseCardMessage Player::ReleaseCard(Card card) {
 
         // update the required cards
         brain.UpdateRequiredCards(card, false);
+
+        // update memory
+        brain.UpdateMemory(card, pid, false);
 
         // decrement the card count
         num_cards -= 1;
@@ -85,7 +86,7 @@ ReleaseCardMessage Player::ReleaseCard(Card card) {
     return ReleaseCardMessage(release, card);
 }
 
-DeclareSetMessage Player::ReceiveCard(Card card) {
+DeclareSetMessage Player::ReceiveCardFrom(Card card, int pid) {
     bool declare = false;
     
     // pick up the card
@@ -93,6 +94,9 @@ DeclareSetMessage Player::ReceiveCard(Card card) {
 
     // update required cards
     brain.UpdateRequiredCards(card, true);
+
+    // update memory
+    brain.UpdateMemory(card, pid, true);
 
     // increment card count
     num_cards += 1;
@@ -109,6 +113,22 @@ void Player::DeclareSet(Set set) {
             cards.erase(cards.begin() + i);
             i -= 1;
             num_cards -= 1;
+        }
+    }
+
+    // reset the declare flag
+    brain.declare = false;
+}
+
+void Player::ReceiveTurnInfo(int from, int to, Card card, bool success) {
+    // if the card is a required card, update its status
+    if(brain.IsCardRequired(card)) {
+        // check to see if the turn was a success
+        if(success)
+            brain.ConfirmPlayerForCard(card, to);
+        else {
+            brain.DeletePlayerFromCard(card, to);
+            brain.DeletePlayerFromCard(card, from);
         }
     }
 }
