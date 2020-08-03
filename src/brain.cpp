@@ -5,82 +5,74 @@
 #include "algorithm"
 #include <utility>
 
-void Player::Brain::UpdateSetCounts(Set set, bool increment) {
-    if(set_counts.find(set) == set_counts.end()) {
-        set_counts[set] = 1;
-    }
-    else {    
-        if(increment)
-            set_counts[set] += 1;
-        else {
-            set_counts[set] -= 1;
-            if(set_counts[set] == 0) {
-                ForgetSetCounts(set);
-            }
-        }
-    }
+Player::Brain::Brain() {
+    declare = false;
 }
 
-void Player::Brain::ForgetSetCounts(Set set) {
-    set_counts.erase(set);
-}
-
-bool Player::Brain::IsDeclare(Set set) {
-    if(req_cards[set].size() == 0)
-        return true;
-    else
-        return false;
-}
-
-void Player::Brain::UpdateRequiredCards(Card card, bool received) {
-    Set set = Set(card.suit, Set::DetermineSetType(card.value));
-
-    if(received) {
-        // seeing the set for the first time
-        if(req_cards.find(set) == req_cards.end()) {
-            // push back all the cards except the received card
-            std::vector<Card> set_cards = Set::GetCardsInSet(set);
-            for(Card c : set_cards)
-                if(!(c == card))
-                    req_cards[set].push_back(c);
-        }
-        else {
-            // find the current card and remove it
-            auto it = std::find(req_cards[set].begin(), req_cards[set].end(), card);
-            req_cards[set].erase(it);
-
-            // check if the current set can be removed
-            if(req_cards[set].size() == 0)
-                ForgetRequiredCards(set);
-        }
-    }
-    else {
-        // check if the current set can be removed
-        if(req_cards[set].size() == kNumCardsPerSet - 1) {
-            req_cards.erase(set);
-        }
-        else {
-            // add the card to the list of required cards
-            req_cards[set].push_back(card);
-        }
-    }
-}
-
-void::Player::Brain::ForgetRequiredCards(Set set) {
+void Player::Brain::ForgetRequiredCards(Set set) {
     req_cards.erase(set);
 }
 
-Set Player::Brain::FindSetToPlay() {
-    int max_count = INT16_MIN;
-    Set set;
+void Player::Brain::AddToRequiredCards(Set set, Card card) {
+    // add the card to the list of required cards
+    req_cards[set].push_back(card);
 
-    for(std::pair<Set, int> sc : set_counts)
-        if(sc.second > max_count) {
-            max_count = sc.second;
-            set = sc.first;
+    // check if the set state can be forgotten
+    if(req_cards[set].size() == kNumCardsPerSet)
+        ForgetRequiredCards(set);
+}
+
+void Player::Brain::DeleteFromRequiredCards(Set set, Card card) {
+    // find the card and delete it
+    auto it = std::find(req_cards[set].begin(), req_cards[set].end(), card);
+    req_cards[set].erase(it);
+
+    // check if the set state can be forgotten (which means the set can be declared)
+    if(req_cards[set].size() == 0) {
+        ForgetRequiredCards(set);
+        declare = true;
+    }
+}
+
+void Player::Brain::UpdateRequiredCards(Card card, bool received) {
+    // compute the current set
+    Set set = Set(card.suit, Set::DetermineSetType(card.value));
+
+    // check if the card has been received
+    if(received) {
+        // check if this is the first time a card belonging to this set is received
+        if(req_cards.find(set) == req_cards.end()) {
+            // grab all the cards that belong to the current set
+            std::vector<Card> set_cards = Set::GetCardsInSet(set);
+
+            // add all the set cards (except the received card) to the list of required cards
+            for(Card c : set_cards)
+                if(!(c == card))
+                    AddToRequiredCards(set, c);
+        }
+        // else remove the received card from the list of required cards
+        else {
+            DeleteFromRequiredCards(set, card);
+        }
+    }
+    // else the card has been released
+    else {
+        // add the released card to the list of required cards
+        AddToRequiredCards(set, card);
+    }
+}
+
+Set Player::Brain::FindSetToPlay() {
+    int min_count = INT16_MAX;
+    Set set_to_play;
+    
+    for(std::pair<Set, std::vector<Card>> rc : req_cards)
+        if(rc.second.size() < min_count) {
+            min_count = rc.second.size();
+            set_to_play = rc.first;
         }
     
-    return set;
+    return set_to_play;
 }
 
 Card Player::Brain::GetNextMove(std::vector<Card> cards) {

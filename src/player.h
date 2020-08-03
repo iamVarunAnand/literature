@@ -11,18 +11,20 @@
 class Player {
 
     private: class Brain {
-        private: std::unordered_map<Set, int, SetHash> set_counts;
         private: std::unordered_map<Set, std::vector<Card>, SetHash> req_cards;
 
-        public: void UpdateSetCounts(Set, bool);
-        public: void UpdateRequiredCards(Card, bool);
-        public: void ForgetSetCounts(Set);
-        public: void ForgetRequiredCards(Set);
-        public: bool IsDeclare(Set);
-        public: Set FindSetToPlay();
-        public: Card GetNextMove(std::vector<Card>);
+        public: bool declare;
 
-        // TODO: encompass all into HandMemory
+        public: Brain();
+
+        private: void AddToRequiredCards(Set, Card);
+        private: void DeleteFromRequiredCards(Set, Card);
+        private: void ForgetRequiredCards(Set);
+
+        public: void UpdateRequiredCards(Card, bool);
+        public: bool IsDeclare(Set);
+        public: Set  FindSetToPlay();
+        public: Card GetNextMove(std::vector<Card>);
     };
 
 
