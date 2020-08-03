@@ -16,7 +16,6 @@ class Player {
         private: std::unordered_map<Set, std::vector<Card>, SetHash> req_cards;
         // private: HandMemory hm;
 
-        public: Brain();
         public: void UpdateSetCounts(Set, bool);
         public: void UpdateRequiredCards(Card, bool);
         public: void ForgetSetCounts(Set);

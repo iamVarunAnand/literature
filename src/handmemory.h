@@ -8,7 +8,7 @@
 
 struct HandMemory {
     std::unordered_map<Set, int, SetHash> set_counts;
-    std::unordered_map<Set, std::vector<Card>> req_cards;
+    std::unordered_map<Set, std::vector<Card>, SetHash> req_cards;
 
     void AddToSetCounts(Set);
     void DeleteFromSetCounts(Set);
