@@ -14,4 +14,8 @@ struct Card {
     friend std::ostream& operator<<(std::ostream &strm, Card &card);
 };
 
+struct CardHash {
+    std::size_t operator()(const Card&) const;
+};
+
 #endif

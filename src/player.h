@@ -12,6 +12,7 @@ class Player {
 
     private: class Brain {
         private: std::unordered_map<Set, std::vector<Card>, SetHash> req_cards;
+        // private: std::unordered_map<Card, std::vector<Player>, CardHash> memory;
 
         public: bool declare;
 
@@ -43,6 +44,7 @@ class Player {
     public: ReleaseCardMessage ReleaseCard(Card);
     public: DeclareSetMessage ReceiveCard(Card);
     public: void DeclareSet(Set);
+    // public: void ReceiveTurnInfo(Player, Player, Card, bool);
     public: void ShowCards();
     public: friend std::ostream& operator<<(std::ostream&, Player&);
 };

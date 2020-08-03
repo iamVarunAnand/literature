@@ -38,6 +38,8 @@ void Player::SetCards(std::vector<Card> _cards) {
 
         // update required cards
         brain.UpdateRequiredCards(_cards[i], true);
+
+        // TODO: update memory
     }
 }
 

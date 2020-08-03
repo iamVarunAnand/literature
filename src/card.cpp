@@ -19,3 +19,7 @@ bool Card::operator==(const Card &b) const {
 std::ostream& operator<<(std::ostream& strm, Card &card) {
     return strm << "Card [suit = " << card.suit << ", value = " << card.value << "]";
 }
+
+std::size_t CardHash::operator()(const Card &c) const {
+    return std::hash<std::size_t>()(c.suit ^ (c.value << 31));
+}
