@@ -35,6 +35,7 @@ class GameManager {
                 // check if the player wishes to declare a set
                 if(dsm.declare) {
                     std::cout << "[INFO] player " << turn << " is declaring " << dsm.set << std::endl;
+
                     players[turn].DeclareSet(dsm.set);
                     players[turn].points += (1 + dsm.set.type);
                     sets_declared += 1;
