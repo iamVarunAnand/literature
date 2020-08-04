@@ -1,5 +1,6 @@
 #include "card.h"
 #include "dtypes.h"
+#include "renderer.h"
 #include <iostream>
 
 Card::Card() {
@@ -17,7 +18,7 @@ bool Card::operator==(const Card &b) const {
 }
 
 std::ostream& operator<<(std::ostream& strm, Card &card) {
-    return strm << "Card [suit = " << card.suit << ", value = " << card.value << "]";
+    return strm << Renderer::kValueToString.at(card.value) << Renderer::kSuitToString.at(card.suit);
 }
 
 std::size_t CardHash::operator()(const Card &c) const {

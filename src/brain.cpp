@@ -185,9 +185,11 @@ AskForCardMessage Player::Brain::GetNextMove(std::vector<Card> cards) {
             return afcm;
         else {
             Set set = FindSetToPlay();
-            int pid = rand() % kNumPlayers;
+            
+            Card card = req_cards[set][0];
+            int pid = memory[card][0];
 
-            return AskForCardMessage(req_cards[set][0], pid);
+            return AskForCardMessage(card, pid);
         }
     }
 }

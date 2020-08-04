@@ -3,6 +3,7 @@
 #include "messages.h"
 #include "constants.h"
 #include "set.h"
+#include "renderer.h"
 #include <iostream>
 #include <vector>
 #include <cstdlib>
@@ -41,7 +42,7 @@ class GameManager {
 
                 // check if the player wishes to declare a set
                 if(dsm.declare) {
-                    // std::cout << "[INFO] player " << turn << " is declaring " << dsm.set << std::endl;
+                    std::cout << "[DSM] player " << turn << " is declaring " << dsm.set << std::endl;
 
                     players[turn].DeclareSet(dsm.set);
                     players[turn].points += (1 + dsm.set.type);

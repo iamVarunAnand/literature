@@ -45,8 +45,9 @@ void Player::SetCards(std::vector<Card> _cards) {
 }
 
 void Player::ShowCards() {
-    for(Card c : cards)
-        std::cout << c << std::endl;
+    for(Card c : cards) {
+        std::cout << c << " ";
+    }
 }
 
 AskForCardMessage Player::PlayNextMove() {
