@@ -102,6 +102,8 @@ void Brain::InitializeMemory(int pid, std::vector<Card> cards) {
                         if(i != pid)
                             memory[c].push_back(i);
                 }
+                // shuffle the order of the players
+                std::random_shuffle(memory[c].begin(), memory[c].end());
             }
         }
 
@@ -156,7 +158,9 @@ void Brain::UpdateMemory(int from, int to, Card card, bool success) {
 void Brain::UpdateMemory(int pid) {
     // player pid has left the game
     
-    // for(std::vector<Card, std::vector<Player>>)
+    for(auto it = memory.begin(); it != memory.end(); ++it) {
+        (*it).second.erase(std::remove((*it).second.begin(), (*it).second.end(), pid), (*it).second.end());
+    }
 }
 
 bool Brain::IsCardRequired(Card card) {

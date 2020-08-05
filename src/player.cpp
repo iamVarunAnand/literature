@@ -16,6 +16,7 @@ Player::Player() {
 
     num_cards = 0;
     points = 0;
+    isplaying = true;
     brain = Brain();
 }
 
@@ -24,6 +25,7 @@ Player::Player(int _id) {
 
     num_cards = 0;
     points = 0;
+    isplaying = true;
     brain = Brain();
 }
 

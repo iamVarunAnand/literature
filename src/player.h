@@ -13,10 +13,11 @@ class Player {
 
     private: int id;
     private: std::vector<Card> cards;
-    public: Brain brain;
+    private: Brain brain;
 
     public: int num_cards;
     public: int points;
+    public: bool isplaying;
 
     public: Player();
     public: Player(int);
