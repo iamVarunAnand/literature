@@ -1,5 +1,5 @@
-#ifndef LITERATURE_DTYPE_H_
-#define LITERATURE_DTYPE_H_
+#ifndef LITERATURE_INCLUDE_DTYPE_HPP_
+#define LITERATURE_INCLUDE_DTYPE_HPP_
 
 enum Suit {
     kSuitDefault = -1, kHearts, kSpades, kDiamonds, kClubs

@@ -1,8 +1,8 @@
-#ifndef LITERATURE_SET_H
-#define LITERATURE_SET_H
+#ifndef LITERATURE_INCLUDE_SET_HPP_
+#define LITERATURE_INCLUDE_SET_HPP_
 
-#include "dtypes.h"
-#include "card.h"
+#include <include/dtypes.hpp>
+#include <include/card.hpp>
 #include <iostream>
 #include <vector>
 

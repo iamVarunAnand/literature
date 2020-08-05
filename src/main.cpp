@@ -1,9 +1,9 @@
-#include "dealer.h"
-#include "player.h"
-#include "messages.h"
-#include "constants.h"
-#include "set.h"
-#include "renderer.h"
+#include <include/dealer.hpp>
+#include <include/player.hpp>
+#include <include/messages.hpp>
+#include <include/constants.hpp>
+#include <include/set.hpp>
+#include <include/renderer.hpp>
 #include <algorithm>
 #include <iostream>
 #include <vector>

@@ -1,10 +1,10 @@
-#ifndef LITERATURE_PLAYER_H
-#define LITERATURE_PLAYER_H
+#ifndef LITERATURE_INCLUDE_PLAYER_HPP_
+#define LITERATURE_INCLUDE_PLAYER_HPP_
 
-#include "card.h"
-#include "messages.h"
-#include "set.h"
-#include "brain.h"
+#include <include/card.hpp>
+#include <include/messages.hpp>
+#include <include/set.hpp>
+#include <include/brain.hpp>
 #include <iostream>
 #include <vector>
 #include <unordered_map>

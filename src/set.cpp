@@ -1,7 +1,7 @@
-#include "dtypes.h"
-#include "set.h"
-#include "card.h"
-#include "renderer.h"
+#include <include/dtypes.hpp>
+#include <include/set.hpp>
+#include <include/card.hpp>
+#include <include/renderer.hpp>
 #include <iostream>
 #include <vector>
 

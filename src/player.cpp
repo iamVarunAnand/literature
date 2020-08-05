@@ -1,10 +1,10 @@
-#include "player.h"
-#include "card.h"
-#include "messages.h"
-#include "dtypes.h"
-#include "constants.h"
-#include "set.h"
-#include "brain.h"
+#include <include/player.hpp>
+#include <include/card.hpp>
+#include <include/messages.hpp>
+#include <include/dtypes.hpp>
+#include <include/constants.hpp>
+#include <include/set.hpp>
+#include <include/brain.hpp>
 #include <iostream>
 #include <vector>
 #include <cstdlib>

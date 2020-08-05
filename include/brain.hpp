@@ -1,9 +1,9 @@
-#ifndef LITERATURE_BRAIN_H
-#define LITERATURE_BRAIN_H
+#ifndef LITERATURE_INCLUDE_BRAIN_HPP_
+#define LITERATURE_INCLUDE_BRAIN_HPP_
 
-#include "card.h"
-#include "set.h"
-#include "messages.h"
+#include <include/card.hpp>
+#include <include/set.hpp>
+#include <include/messages.hpp>
 #include <unordered_map>
 #include <vector>
 

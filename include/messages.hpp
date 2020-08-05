@@ -1,8 +1,8 @@
-#ifndef LITERATURE_MESSAGES_H
-#define LITERATURE_MESSAGES_H
+#ifndef LITERATURE_INCLUDE_MESSAGES_HPP_
+#define LITERATURE_INCLUDE_MESSAGES_HPP_
 
-#include "card.h"
-#include "set.h"
+#include <include/card.hpp>
+#include <include/set.hpp>
 #include <iostream>
 
 struct AskForCardMessage {

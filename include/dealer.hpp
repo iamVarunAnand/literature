@@ -1,8 +1,8 @@
-#ifndef LITERATURE_DEALER_H_
-#define LITERATURE_DEALER_H_
+#ifndef LITERATURE_INCLUDE_DEALER_HPP_
+#define LITERATURE_INCLUDE_DEALER_HPP_
 
-#include "player.h"
-#include "card.h"
+#include <include/player.hpp>
+#include <include/card.hpp>
 #include <vector>
 
 class Dealer {

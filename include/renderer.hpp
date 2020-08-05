@@ -1,7 +1,7 @@
-#ifndef LITERATURE_RENDERER_H
-#define LITERATURE_RENDERER_H
+#ifndef LITERATURE_INCLUDE_RENDERER_HPP_
+#define LITERATURE_INCLUDE_RENDERER_HPP_
 
-#include "dtypes.h"
+#include <include/dtypes.hpp>
 #include <unordered_map>
 #include <string>
 

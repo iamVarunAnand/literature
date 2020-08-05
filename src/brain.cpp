@@ -1,17 +1,13 @@
-#include "brain.h"
-#include "constants.h"
-#include "set.h"
-#include "card.h"
+#include <include/brain.hpp>
+#include <include/constants.hpp>
+#include <include/set.hpp>
+#include <include/card.hpp>
 #include "algorithm"
 #include <utility>
 #include <unordered_set>
 
 Brain::Brain() {
     declare = false;
-}
-
-void Brain::ForgetRequiredCards(Set set) {
-    req_cards.erase(set);
 }
 
 void Brain::AddToRequiredCards(Set set, Card card) {
@@ -32,6 +28,10 @@ void Brain::DeleteFromRequiredCards(Set set, Card card) {
         ForgetRequiredCards(set);
         declare = true;
     }
+}
+
+void Brain::ForgetRequiredCards(Set set) {
+    req_cards.erase(set);
 }
 
 void Brain::UpdateRequiredCards(Card card, bool received) {
@@ -198,20 +198,16 @@ AskForCardMessage Brain::CheckForCertainty() {
 }
 
 AskForCardMessage Brain::GetNextMove(std::vector<Card> cards) {
-    if(cards.size() == 0)
-        return AskForCardMessage(Card(), rand() % kNumPlayers);
+    AskForCardMessage afcm = CheckForCertainty();
+
+    if(afcm.player_id != -1)
+        return afcm;
     else {
-        AskForCardMessage afcm = CheckForCertainty();
+        Set set = FindSetToPlay();
+        
+        Card card = req_cards[set][0];
+        int pid = memory[card][0];
 
-        if(afcm.player_id != -1)
-            return afcm;
-        else {
-            Set set = FindSetToPlay();
-            
-            Card card = req_cards[set][0];
-            int pid = memory[card][0];
-
-            return AskForCardMessage(card, pid);
-        }
+        return AskForCardMessage(card, pid);
     }
 }

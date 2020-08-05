@@ -1,5 +1,5 @@
-#ifndef LITERATURE_CONSTANTS_H
-#define LITERATURE_CONSTANTS_H
+#ifndef LITERATURE_INCLUDE_CONSTANTS_HPP_
+#define LITERATURE_INCLUDE_CONSTANTS_HPP_
 
 const int kNumSuits = 4;
 const int kNumCardsPerSuit = 12;

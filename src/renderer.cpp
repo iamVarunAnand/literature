@@ -1,5 +1,5 @@
-#include "renderer.h"
-#include "dtypes.h"
+#include <include/renderer.hpp>
+#include <include/renderer.hpp>
 #include <unordered_map>
 #include <string>
 

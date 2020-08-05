@@ -1,7 +1,7 @@
-#ifndef LITERATURE_CARD_H_
-#define LITERATURE_CARD_H_
+#ifndef LITERATURE_INCLUDE_CARD_HPP_
+#define LITERATURE_INCLUDE_CARD_HPP_
 
-#include "dtypes.h"
+#include <include/dtypes.hpp>
 #include <iostream>
 
 struct Card {
