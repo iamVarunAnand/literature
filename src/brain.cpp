@@ -1,7 +1,7 @@
 #include <include/brain.hpp>
-#include <include/constants.hpp>
 #include <include/set.hpp>
 #include <include/card.hpp>
+#include <include/constants.hpp>
 #include "algorithm"
 #include <utility>
 #include <unordered_set>
@@ -175,7 +175,7 @@ Set Brain::FindSetToPlay() {
     Set set_to_play;
     
     for(std::pair<Set, std::vector<Card>> rc : req_cards)
-        if(rc.second.size() < min_count) {
+        if((int)rc.second.size() < min_count) {
             min_count = rc.second.size();
             set_to_play = rc.first;
         }

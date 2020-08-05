@@ -1,9 +1,7 @@
-#include <include/dealer.hpp>
 #include <include/player.hpp>
+#include <include/dealer.hpp>
 #include <include/messages.hpp>
 #include <include/constants.hpp>
-#include <include/set.hpp>
-#include <include/renderer.hpp>
 #include <algorithm>
 #include <iostream>
 #include <vector>
@@ -92,7 +90,7 @@ class GameManager {
         }
 
         std::cout << std::endl << "Final results: " << std::endl;
-        for(int i = 0; i < players.size(); ++i) {
+        for(int i = 0; i < (int)players.size(); ++i) {
             std::cout << "\tplayer " << i << " got " << players[i].points << " points" << std::endl;
         }
     }

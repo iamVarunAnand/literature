@@ -1,6 +1,6 @@
 #include <include/card.hpp>
-#include <include/dtypes.hpp>
 #include <include/renderer.hpp>
+#include <include/dtypes.hpp>
 #include <iostream>
 
 Card::Card() {

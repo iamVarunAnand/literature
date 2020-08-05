@@ -1,7 +1,7 @@
 #include <include/dealer.hpp>
+#include <include/card.hpp>
 #include <include/dtypes.hpp>
 #include <include/constants.hpp>
-#include <include/card.hpp>
 #include <cstdlib>
 #include <iostream>
 

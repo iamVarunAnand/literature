@@ -1,5 +1,5 @@
-#include <include/card.hpp>
 #include <include/messages.hpp>
+#include <include/card.hpp>
 #include <iostream>
 
 AskForCardMessage::AskForCardMessage() {

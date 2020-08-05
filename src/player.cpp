@@ -1,10 +1,10 @@
 #include <include/player.hpp>
-#include <include/card.hpp>
+#include <include/brain.hpp>
+#include <include/set.hpp>
 #include <include/messages.hpp>
+#include <include/card.hpp>
 #include <include/dtypes.hpp>
 #include <include/constants.hpp>
-#include <include/set.hpp>
-#include <include/brain.hpp>
 #include <iostream>
 #include <vector>
 #include <cstdlib>

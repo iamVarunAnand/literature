@@ -1,7 +1,7 @@
-#include <include/dtypes.hpp>
 #include <include/set.hpp>
 #include <include/card.hpp>
 #include <include/renderer.hpp>
+#include <include/dtypes.hpp>
 #include <iostream>
 #include <vector>
 
