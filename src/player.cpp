@@ -4,6 +4,7 @@
 #include "dtypes.h"
 #include "constants.h"
 #include "set.h"
+#include "brain.h"
 #include <iostream>
 #include <vector>
 #include <cstdlib>
@@ -15,6 +16,7 @@ Player::Player() {
 
     num_cards = 0;
     points = 0;
+    brain = Brain();
 }
 
 Player::Player(int _id) {
@@ -22,6 +24,7 @@ Player::Player(int _id) {
 
     num_cards = 0;
     points = 0;
+    brain = Brain();
 }
 
 std::ostream& operator<<(std::ostream &strm, Player &p) {
@@ -87,9 +90,7 @@ ReleaseCardMessage Player::ReleaseCardTo(Card card, int pid) {
     return ReleaseCardMessage(release, card);
 }
 
-DeclareSetMessage Player::ReceiveCardFrom(Card card, int pid) {
-    bool declare = false;
-    
+DeclareSetMessage Player::ReceiveCardFrom(Card card, int pid) {    
     // pick up the card
     cards.push_back(card);
 
@@ -122,14 +123,18 @@ void Player::DeclareSet(Set set) {
 }
 
 void Player::ReceiveTurnInfo(int from, int to, Card card, bool success) {
-    // if the card is a required card, update its status
-    if(brain.IsCardRequired(card)) {
-        // check to see if the turn was a success
-        if(success)
-            brain.ConfirmPlayerForCard(card, to);
-        else {
-            brain.DeletePlayerFromCard(card, to);
-            brain.DeletePlayerFromCard(card, from);
-        }
+    brain.UpdateMemory(from, to, card, success);
+}
+
+void Player::ReceivePlayerHasLeftGameUpdate(int pid) {
+    brain.UpdateMemory(pid);
+}
+
+void Player::ShowMemory() {
+    for(std::pair<Card, std::vector<int>> mem : brain.memory) {
+        std::cout << mem.first << ": ";
+        for(int pid : mem.second)
+            std::cout << pid << " ";
+        std::cout << std::endl;
     }
 }

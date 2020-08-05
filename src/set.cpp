@@ -1,6 +1,7 @@
 #include "dtypes.h"
 #include "set.h"
 #include "card.h"
+#include "renderer.h"
 #include <iostream>
 #include <vector>
 
@@ -41,7 +42,7 @@ bool Set::operator==(const Set &b) const {
 }
 
 std::ostream& operator<<(std::ostream &strm, Set &s) {
-    return strm << "Set [Suit = " << s.suit << ", type = " << s.type << "]";
+    return strm << "Set [Suit = " << Renderer::kSuitToString.at(s.suit) << ", type = " << s.type << "]";
 }
 
 std::size_t SetHash::operator()(const Set &x) const {

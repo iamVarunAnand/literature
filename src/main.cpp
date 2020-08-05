@@ -30,13 +30,13 @@ class GameManager {
             AskForCardMessage afcm = players[turn].PlayNextMove();
             ReleaseCardMessage rcm = players[afcm.player_id].ReleaseCardTo(afcm.card, turn);
 
+            std::cout << std::endl;
             std::cout << "[AFCM] player " << turn << " asked player " << afcm.player_id << " for card " << afcm.card << ".\n";
             std::cout << "[RCM] player " << afcm.player_id << " replied " << rcm.release << std::endl << std::endl;
 
-            // broadcast turn info to all players
-            for(Player p : players)
-                p.ReceiveTurnInfo(turn, afcm.player_id, afcm.card, rcm.release);
-            
+            for(int i = 0; i < kNumPlayers; ++i)
+                players[i].ReceiveTurnInfo(afcm.player_id, turn, afcm.card, rcm.release);
+
             if(rcm.release) {
                 DeclareSetMessage dsm = players[turn].ReceiveCardFrom(rcm.card, afcm.player_id);
 
