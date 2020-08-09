@@ -1,13 +1,13 @@
-INC_FLAG_PARAMS ?= .
+TARGET_EXEC ?= run.out
 
 INC_DIR ?= ./include
 SRC_DIR ?= ./src
 BUILD_DIR ?= ./build
-TARGET_EXEC ?= run.out
 
-SRCS ?= $(shell find $(SRC_DIR) -name *.cpp)
-OBJS ?= $(patsubst %.cpp, $(BUILD_DIR)/%.o, $(notdir $(SRCS)))
+SRCS := $(shell find $(SRC_DIR) -name *.cpp)
+OBJS := $(patsubst %.cpp, $(BUILD_DIR)/%.o, $(notdir $(SRCS)))
 
+INC_FLAG_PARAMS ?= .
 CXX ?= g++
 CXXFLAGS ?= -Wall -g -I $(INC_FLAG_PARAMS)
 
