@@ -4,3 +4,12 @@ The sole purpose of this project was to get a practical hands-on experience in O
  1. **Data encapsulation:** All the data members of the classes are private, restricting access to these members from other classes
  2. **Polymorphism:** Multiple instances of polymorphism / function overloading can be found in the code, wherever appropriate
  3. **Data abstraction:** The game makes use of several abstract datatypes such as Suit, Value, Set and Messages throughout its execution.
+
+### To view the game in action (requires make):
+```
+$ git clone https://github.com/iamVarunAnand/literature.git
+$ cd literature
+$ mkdir build
+$ make
+$ build/run.out
+```
