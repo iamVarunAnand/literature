@@ -1,10 +1,12 @@
-#include <include/brain.hpp>
-#include <include/set.hpp>
-#include <include/card.hpp>
-#include <include/constants.hpp>
-#include "algorithm"
-#include <utility>
+#include "../include/brain.hpp"
+
+#include <algorithm>
 #include <unordered_set>
+#include <vector>
+
+#include "../include/card.hpp"
+#include "../include/constants.hpp"
+#include "../include/set.hpp"
 
 Brain::Brain() {
     declare = false;
@@ -15,8 +17,7 @@ void Brain::AddToRequiredCards(Set set, Card card) {
     req_cards[set].push_back(card);
 
     // check if the set state can be forgotten
-    if(req_cards[set].size() == kNumCardsPerSet)
-        ForgetRequiredCards(set);
+    if (req_cards[set].size() == kNumCardsPerSet) ForgetRequiredCards(set);
 }
 
 void Brain::DeleteFromRequiredCards(Set set, Card card) {
@@ -24,7 +25,7 @@ void Brain::DeleteFromRequiredCards(Set set, Card card) {
     req_cards[set].erase(std::remove(req_cards[set].begin(), req_cards[set].end(), card), req_cards[set].end());
 
     // check if the set state can be forgotten (which means the set can be declared)
-    if(req_cards[set].size() == 0) {
+    if (req_cards[set].size() == 0) {
         ForgetRequiredCards(set);
         declare = true;
     }
@@ -38,17 +39,15 @@ void Brain::UpdateRequiredCards(Card card, bool received) {
     // compute the current set
     Set set = Set(card.suit, Set::DetermineSetType(card.value));
 
-    // check if the card has been received
-    if(received) {
-        // check if this is the first time a card belonging to this set is received
-        if(req_cards.find(set) == req_cards.end()) {
+    if (received) {
+        // check if this is the first time a card belonging to from this set is received
+        if (req_cards.find(set) == req_cards.end()) {
             // grab all the cards that belong to the current set
             std::vector<Card> set_cards = Set::GetCardsInSet(set);
 
             // add all the set cards (except the received card) to the list of required cards
-            for(Card c : set_cards)
-                if(!(c == card))
-                    AddToRequiredCards(set, c);
+            for (Card c : set_cards)
+                if (!(c == card)) AddToRequiredCards(set, c);
         }
         // else remove the received card from the list of required cards
         else {
@@ -71,7 +70,8 @@ void Brain::DeletePlayerFromCard(Card card, int pid) {
 }
 
 void Brain::ConfirmPlayerForCard(Card card, int pid) {
-    std::vector<int> temp; temp.push_back(pid);
+    std::vector<int> temp;
+    temp.push_back(pid);
     memory[card] = temp;
 }
 
@@ -84,23 +84,22 @@ void Brain::InitializeMemory(int pid, std::vector<Card> cards) {
     std::unordered_set<Set, SetHash> sets_seen;
 
     // loop through the cards and update the memory
-    for(Card card : cards) {
+    for (Card card : cards) {
         // calculate the set of the current card
         Set set = Set(card.suit, Set::DetermineSetType(card.value));
 
         // check to see if the current set has already been seen
-        if(sets_seen.find(set) != sets_seen.end())
-            ForgetCard(card);
-        // else add all players (except this) to the cards in this set (except current card)
+        if (sets_seen.find(set) != sets_seen.end()) ForgetCard(card);
+        // else add all players (except this) to the cards in this set (except
+        // current card)
         else {
             // get the list of cards that belong to this set
             std::vector<Card> set_cards = Set::GetCardsInSet(set);
 
-            for(Card c : set_cards) {
-                if(!(c == card)) {
-                    for(int i = 0; i < kNumPlayers; ++i)
-                        if(i != pid)
-                            memory[c].push_back(i);
+            for (Card c : set_cards) {
+                if (!(c == card)) {
+                    for (int i = 0; i < kNumPlayers; ++i)
+                        if (i != pid) memory[c].push_back(i);
                 }
                 // shuffle the order of the players
                 std::random_shuffle(memory[c].begin(), memory[c].end());
@@ -117,20 +116,20 @@ void Brain::UpdateMemory(Card card, int pid, bool received) {
     Set set = Set(card.suit, Set::DetermineSetType(card.value));
 
     // check to see if the card was received
-    if(received) {
-        ForgetCard(card);        
+    if (received) {
+        ForgetCard(card);
     }
     // else the card has been released
     else {
-        // check to see if the cards corresponding to the current set can be forgotten
-        if(req_cards.find(set) == req_cards.end()) {
+        // check to see if the cards corresponding to the current set can be
+        // forgotten
+        if (req_cards.find(set) == req_cards.end()) {
             // grab the cards corresponding to the current set
             std::vector<Card> set_cards = Set::GetCardsInSet(set);
 
             // loop through the cards and erase them from memory
-            for(Card card : set_cards) {
-                if(memory.find(card) != memory.end())
-                    memory.erase(card);
+            for (Card card : set_cards) {
+                if (memory.find(card) != memory.end()) memory.erase(card);
             }
         }
         // else confirm the receiving player to have the released card
@@ -138,17 +137,15 @@ void Brain::UpdateMemory(Card card, int pid, bool received) {
             ConfirmPlayerForCard(card, pid);
         }
     }
-
 }
 
 void Brain::UpdateMemory(int from, int to, Card card, bool success) {
     // if the card is a required card, update its status
-    if(IsCardRequired(card)) {
+    if (IsCardRequired(card)) {
         // check to see if the turn was a success
-        if(success) {
+        if (success) {
             ConfirmPlayerForCard(card, to);
-        }
-        else {
+        } else {
             DeletePlayerFromCard(card, from);
             DeletePlayerFromCard(card, to);
         }
@@ -157,14 +154,22 @@ void Brain::UpdateMemory(int from, int to, Card card, bool success) {
 
 void Brain::UpdateMemory(int pid) {
     // player pid has left the game
-    
-    for(auto it = memory.begin(); it != memory.end(); ++it) {
+
+    for (auto it = memory.begin(); it != memory.end(); ++it) {
         (*it).second.erase(std::remove((*it).second.begin(), (*it).second.end(), pid), (*it).second.end());
     }
 }
 
+void Brain::ShowMemory() {
+    for (std::pair<Card, std::vector<int>> mem : memory) {
+        std::cout << mem.first << ": ";
+        for (int pid : mem.second) std::cout << pid << " ";
+        std::cout << std::endl;
+    }
+}
+
 bool Brain::IsCardRequired(Card card) {
-    if(memory.find(card) != memory.end())
+    if (memory.find(card) != memory.end())
         return true;
     else
         return false;
@@ -173,13 +178,13 @@ bool Brain::IsCardRequired(Card card) {
 Set Brain::FindSetToPlay() {
     int min_count = INT16_MAX;
     Set set_to_play;
-    
-    for(std::pair<Set, std::vector<Card>> rc : req_cards)
-        if((int)rc.second.size() < min_count) {
+
+    for (std::pair<Set, std::vector<Card>> rc : req_cards)
+        if ((int)rc.second.size() < min_count) {
             min_count = rc.second.size();
             set_to_play = rc.first;
         }
-    
+
     return set_to_play;
 }
 
@@ -187,8 +192,8 @@ AskForCardMessage Brain::CheckForCertainty() {
     Card card;
     int pid = -1;
 
-    for(auto it = memory.begin(); it != memory.end() && pid == -1; ++it) {
-        if((*it).second.size() == 1) {
+    for (auto it = memory.begin(); it != memory.end() && pid == -1; ++it) {
+        if ((*it).second.size() == 1) {
             card = (*it).first;
             pid = (*it).second[0];
         }
@@ -198,13 +203,20 @@ AskForCardMessage Brain::CheckForCertainty() {
 }
 
 AskForCardMessage Brain::GetNextMove(std::vector<Card> cards) {
+    /*
+        Very simple AI.
+
+        - If we know a player has a card that we need, ask the player for the card.
+        - If not, ask for a card from a valid set. The set for which we need the least number of cards is chosen.
+    */
+
     AskForCardMessage afcm = CheckForCertainty();
 
-    if(afcm.player_id != -1)
+    if (afcm.player_id != -1)
         return afcm;
     else {
         Set set = FindSetToPlay();
-        
+
         Card card = req_cards[set][0];
         int pid = memory[card][0];
 

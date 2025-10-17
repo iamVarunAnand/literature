@@ -1,37 +1,40 @@
 #ifndef LITERATURE_INCLUDE_PLAYER_HPP_
 #define LITERATURE_INCLUDE_PLAYER_HPP_
 
-#include <include/card.hpp>
-#include <include/messages.hpp>
-#include <include/set.hpp>
-#include <include/brain.hpp>
 #include <iostream>
 #include <vector>
-#include <unordered_map>
+
+#include "../include/brain.hpp"
+#include "../include/card.hpp"
+#include "../include/messages.hpp"
+#include "../include/set.hpp"
 
 class Player {
+   private:
+    int id;
+    std::vector<Card> cards;
+    Brain brain;
 
-    private: int id;
-    private: std::vector<Card> cards;
-    private: Brain brain;
+   public:
+    int num_cards;
+    int points;
+    bool isplaying;
 
-    public: int num_cards;
-    public: int points;
-    public: bool isplaying;
+    Player();
+    Player(int);
 
-    public: Player();
-    public: Player(int);
+    void SetCards(std::vector<Card>);
+    void DeclareSet(Set);
+    void ReceiveTurnInfo(int, int, Card, bool);
+    void ReceivePlayerHasLeftGameUpdate(int);
+    void ShowCards();
+    void ShowMemory();
 
-    public: void SetCards(std::vector<Card>);
-    public: AskForCardMessage PlayNextMove();
-    public: ReleaseCardMessage ReleaseCardTo(Card, int);
-    public: DeclareSetMessage ReceiveCardFrom(Card, int);
-    public: void DeclareSet(Set);
-    public: void ReceiveTurnInfo(int, int, Card, bool);
-    public: void ReceivePlayerHasLeftGameUpdate(int);
-    public: void ShowCards();
-    public: void ShowMemory();
-    public: friend std::ostream& operator<<(std::ostream&, Player&);
+    AskForCardMessage PlayNextMove();
+    ReleaseCardMessage ReleaseCardTo(Card, int);
+    DeclareSetMessage ReceiveCardFrom(Card, int);
+
+    friend std::ostream& operator<<(std::ostream&, Player&);
 };
 
 #endif

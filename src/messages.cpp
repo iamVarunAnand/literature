@@ -1,6 +1,9 @@
-#include <include/messages.hpp>
-#include <include/card.hpp>
+#include "../include/messages.hpp"
+
 #include <iostream>
+
+#include "../include/card.hpp"
+#include "../include/set.hpp"
 
 AskForCardMessage::AskForCardMessage() {
     card = Card();
@@ -32,7 +35,7 @@ DeclareSetMessage::DeclareSetMessage(bool _declare, Set _set) {
     set = _set;
 }
 
-std::ostream& operator<<(std::ostream &strm, AskForCardMessage &msg) {
+std::ostream &operator<<(std::ostream &strm, AskForCardMessage &msg) {
     return strm << "AskForCardMessage [" << msg.card << ", player_id = " << msg.player_id << "]";
 }
 
@@ -41,5 +44,5 @@ std::ostream &operator<<(std::ostream &strm, ReleaseCardMessage &msg) {
 }
 
 std::ostream &operator<<(std::ostream &strm, DeclareSetMessage &msg) {
-    return strm << "ReleaseCardMessage [declare = " << msg.declare << ", " << msg.set << "]";
+    return strm << "DeclareSetMessage [declare = " << msg.declare << ", " << msg.set << "]";
 }

@@ -1,7 +1,9 @@
-#include <include/card.hpp>
-#include <include/renderer.hpp>
-#include <include/dtypes.hpp>
+#include "../include/card.hpp"
+
 #include <iostream>
+
+#include "../include/dtypes.hpp"
+#include "../include/renderer.hpp"
 
 Card::Card() {
     suit = kSuitDefault;
@@ -17,7 +19,7 @@ bool Card::operator==(const Card &b) const {
     return (suit == b.suit && value == b.value);
 }
 
-std::ostream& operator<<(std::ostream& strm, Card &card) {
+std::ostream &operator<<(std::ostream &strm, Card &card) {
     return strm << Renderer::kValueToString.at(card.value) << Renderer::kSuitToString.at(card.suit);
 }
 

@@ -1,9 +1,11 @@
-#include <include/set.hpp>
-#include <include/card.hpp>
-#include <include/renderer.hpp>
-#include <include/dtypes.hpp>
+#include "../include/set.hpp"
+
 #include <iostream>
 #include <vector>
+
+#include "../include/card.hpp"
+#include "../include/dtypes.hpp"
+#include "../include/renderer.hpp"
 
 Set::Set() {
     suit = kSuitDefault;
@@ -16,7 +18,7 @@ Set::Set(Suit _suit, int _type) {
 }
 
 int Set::DetermineSetType(Value value) {
-    if(value > kSeven)
+    if (value > kSeven)
         return 1;
     else
         return 0;
@@ -25,13 +27,10 @@ int Set::DetermineSetType(Value value) {
 std::vector<Card> Set::GetCardsInSet(Set set) {
     std::vector<Card> cards;
 
-    if(set.type) {
-        for(Value v = kNine; v <= kAce; v = (Value)(v + 1))
-            cards.push_back(Card(set.suit, v));
-    }
-    else {
-        for(Value v = kTwo; v <= kSeven; v = (Value)(v + 1))
-            cards.push_back(Card(set.suit, v));
+    if (set.type) {
+        for (Value v = kNine; v <= kAce; v = (Value)(v + 1)) cards.push_back(Card(set.suit, v));
+    } else {
+        for (Value v = kTwo; v <= kSeven; v = (Value)(v + 1)) cards.push_back(Card(set.suit, v));
     }
 
     return cards;
@@ -41,7 +40,7 @@ bool Set::operator==(const Set &b) const {
     return (suit == b.suit && type == b.type);
 }
 
-std::ostream& operator<<(std::ostream &strm, Set &s) {
+std::ostream &operator<<(std::ostream &strm, Set &s) {
     return strm << "Set [Suit = " << Renderer::kSuitToString.at(s.suit) << ", type = " << s.type << "]";
 }
 

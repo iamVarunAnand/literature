@@ -18,7 +18,7 @@ $(BUILD_DIR)/main.o: $(SRC_DIR)/main.cpp $(INC_DIR)/player.hpp $(INC_DIR)/dealer
 	$(CXX) $(CXXFLAGS) -c $(SRC_DIR)/main.cpp -o $(BUILD_DIR)/main.o
 
 $(BUILD_DIR)/player.o: $(SRC_DIR)/player.cpp $(INC_DIR)/player.hpp $(INC_DIR)/brain.hpp $(INC_DIR)/set.hpp $(INC_DIR)/messages.hpp \
-		  $(INC_DIR)/card.hpp $(INC_DIR)/dtypes.hpp $(INC_DIR)/constants.hpp
+		$(INC_DIR)/card.hpp $(INC_DIR)/dtypes.hpp $(INC_DIR)/constants.hpp
 	$(CXX) $(CXXFLAGS) -c $(SRC_DIR)/player.cpp -o $(BUILD_DIR)/player.o
 
 $(BUILD_DIR)/dealer.o: $(INC_DIR)/dealer.hpp $(INC_DIR)/card.hpp $(INC_DIR)/dtypes.hpp $(INC_DIR)/constants.hpp
@@ -40,4 +40,4 @@ $(BUILD_DIR)/renderer.o: $(SRC_DIR)/renderer.cpp $(INC_DIR)/renderer.hpp $(INC_D
 	$(CXX) $(CXXFLAGS) -c $(SRC_DIR)/renderer.cpp -o $(BUILD_DIR)/renderer.o
 
 clean:
-	rm $(BUILD_DIR)/*.o $(BUILD_DIR)/$(TARGET_EXEC)
+	rm -rf $(BUILD_DIR)

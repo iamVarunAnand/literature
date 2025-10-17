@@ -1,24 +1,14 @@
-#include <include/player.hpp>
-#include <include/brain.hpp>
-#include <include/set.hpp>
-#include <include/messages.hpp>
-#include <include/card.hpp>
-#include <include/dtypes.hpp>
-#include <include/constants.hpp>
+#include "../include/player.hpp"
+
+#include <algorithm>
+#include <cstdlib>
 #include <iostream>
 #include <vector>
-#include <cstdlib>
-#include <algorithm>
-#include <unordered_map>
 
-Player::Player() {
-    id = -1;
-
-    num_cards = 0;
-    points = 0;
-    isplaying = true;
-    brain = Brain();
-}
+#include "../include/brain.hpp"
+#include "../include/card.hpp"
+#include "../include/messages.hpp"
+#include "../include/set.hpp"
 
 Player::Player(int _id) {
     id = _id;
@@ -29,15 +19,18 @@ Player::Player(int _id) {
     brain = Brain();
 }
 
-std::ostream& operator<<(std::ostream &strm, Player &p) {
+Player::Player() {
+    Player(-1);
+}
+
+std::ostream &operator<<(std::ostream &strm, Player &p) {
     return strm << "Player [id = " << p.id << "]";
 }
 
 void Player::SetCards(std::vector<Card> _cards) {
     // calculate the total number of cards
     num_cards = _cards.size();
-    for(int i = 0; i < num_cards; ++i)
-    {
+    for (int i = 0; i < num_cards; ++i) {
         // pick up the card
         cards.push_back(_cards[i]);
 
@@ -50,7 +43,7 @@ void Player::SetCards(std::vector<Card> _cards) {
 }
 
 void Player::ShowCards() {
-    for(Card c : cards) {
+    for (Card c : cards) {
         std::cout << c << " ";
     }
 }
@@ -72,7 +65,7 @@ ReleaseCardMessage Player::ReleaseCardTo(Card card, int pid) {
     bool release = false;
 
     auto it = std::find(cards.begin(), cards.end(), card);
-    if(it != cards.end()) {
+    if (it != cards.end()) {
         // drop the card
         cards.erase(it);
 
@@ -92,7 +85,7 @@ ReleaseCardMessage Player::ReleaseCardTo(Card card, int pid) {
     return ReleaseCardMessage(release, card);
 }
 
-DeclareSetMessage Player::ReceiveCardFrom(Card card, int pid) {    
+DeclareSetMessage Player::ReceiveCardFrom(Card card, int pid) {
     // pick up the card
     cards.push_back(card);
 
@@ -110,10 +103,10 @@ DeclareSetMessage Player::ReceiveCardFrom(Card card, int pid) {
 
 void Player::DeclareSet(Set set) {
     // drop cards that belong to the particular set
-    for(int i = 0; i < num_cards; ++i) {
+    for (int i = 0; i < num_cards; ++i) {
         Set current_set(cards[i].suit, Set::DetermineSetType(cards[i].value));
 
-        if(current_set == set) {
+        if (current_set == set) {
             cards.erase(cards.begin() + i);
             i -= 1;
             num_cards -= 1;
@@ -133,10 +126,5 @@ void Player::ReceivePlayerHasLeftGameUpdate(int pid) {
 }
 
 void Player::ShowMemory() {
-    for(std::pair<Card, std::vector<int>> mem : brain.memory) {
-        std::cout << mem.first << ": ";
-        for(int pid : mem.second)
-            std::cout << pid << " ";
-        std::cout << std::endl;
-    }
+    brain.ShowMemory();
 }

@@ -1,13 +1,15 @@
-#include <include/dealer.hpp>
-#include <include/card.hpp>
-#include <include/dtypes.hpp>
-#include <include/constants.hpp>
+#include "../include/dealer.hpp"
+
 #include <cstdlib>
 #include <iostream>
 
+#include "../include/card.hpp"
+#include "../include/constants.hpp"
+#include "../include/dtypes.hpp"
+
 Dealer::Dealer() {
-    for(int i = 0; i < kNumSuits; ++i) {
-        for(int j = 0; j < kNumCardsPerSuit; ++j) {
+    for (int i = 0; i < kNumSuits; ++i) {
+        for (int j = 0; j < kNumCardsPerSuit; ++j) {
             Suit s = (Suit)i;
             Value v = (Value)j;
 
@@ -18,7 +20,7 @@ Dealer::Dealer() {
 }
 
 void Dealer::ShuffleDeck() {
-    for(int i = kNumTotalCards - 1; i > 0; --i) {
+    for (int i = kNumTotalCards - 1; i > 0; --i) {
         int j = rand() % (i + 1);
 
         Card temp = deck[j];
@@ -32,12 +34,10 @@ std::vector<int> Dealer::CalcNumCardsPerPlayer(int num_players) {
     int num_extra_cards = kNumTotalCards % num_players;
 
     std::vector<int> kNumCardsPerPlayer;
-    for(int i = 0; i < num_players; ++i)
-        kNumCardsPerPlayer.push_back(num_initial_cards);
+    for (int i = 0; i < num_players; ++i) kNumCardsPerPlayer.push_back(num_initial_cards);
 
-    for(int i = 0; i < num_extra_cards; ++i)
-        kNumCardsPerPlayer[i] += 1;
-    
+    for (int i = 0; i < num_extra_cards; ++i) kNumCardsPerPlayer[i] += 1;
+
     return kNumCardsPerPlayer;
 }
 
@@ -46,13 +46,12 @@ void Dealer::DealCards(std::vector<Player> &players) {
     int num_players = players.size();
     std::vector<int> kNumCardsPerPlayer = CalcNumCardsPerPlayer(num_players);
 
-    // shuffle the deck
     ShuffleDeck();
 
     // distribute the cards
-    for(int i = 0; i < num_players; ++i) {
+    for (int i = 0; i < num_players; ++i) {
         std::vector<Card> player_cards;
-        for(int j = 0; j < kNumCardsPerPlayer[i]; ++j) {
+        for (int j = 0; j < kNumCardsPerPlayer[i]; ++j) {
             Card temp = *(deck.begin());
             player_cards.push_back(temp);
             deck.erase(deck.begin());
@@ -61,7 +60,7 @@ void Dealer::DealCards(std::vector<Player> &players) {
     }
 }
 
-void Dealer::ShowRandomCard() {    
+void Dealer::ShowRandomCard() {
     int index = rand() % kNumTotalCards;
     std::cout << "Generated index: " << index << " - ";
     std::cout << deck[index] << std::endl;

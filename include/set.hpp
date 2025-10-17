@@ -1,10 +1,11 @@
 #ifndef LITERATURE_INCLUDE_SET_HPP_
 #define LITERATURE_INCLUDE_SET_HPP_
 
-#include <include/dtypes.hpp>
-#include <include/card.hpp>
 #include <iostream>
 #include <vector>
+
+#include "../include/card.hpp"
+#include "../include/dtypes.hpp"
 
 struct Set {
     Suit suit;
@@ -16,7 +17,6 @@ struct Set {
     static std::vector<Card> GetCardsInSet(Set);
     bool operator==(const Set&) const;
     friend std::ostream& operator<<(std::ostream&, Set&);
-
 };
 
 struct SetHash {
